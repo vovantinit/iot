@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+<data>
+
+    <!-- Gia Tri -->
+    <record model="ir.ui.view" id="view_giatri_tree">
+        <field name="name">giatri.tree</field>
+        <field name="model">giatri</field>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <tree string="Values">
+                <field name="nhiet_do_phong"/>
+                <field name="dong_dien"/>
+                <field name="gia_tri"/>
+                <field name="dieu_chinh"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- Dieu Hoa -->
+    <record model="ir.ui.view" id="view_dieuhoa_form">
+        <field name="name">dieuhoa.form</field>
+        <field name="model">dieuhoa</field>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <form string="Air">
+                <header>
+                    <button name="turn_on" string="Bật" type="object" attrs="{'invisible': [('trang_thai', '=', 'on')]}" class="oe_highlight" />
+                    <button name="turn_off" string="Tắt" type="object" attrs="{'invisible': [('trang_thai', '=', 'off')]}" class="oe_highlight" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="phong_id"/>
+                            <field name="nhiet_do_co_ban"/>
+                            <field name="hieu_dien_the"/>
+                            <field name="trang_thai"/>
+                            <field name="gia_tri"/>
+                        </group>
+                        <group>
+                            <field name="nhiet_do_phong"/>
+                            <field name="dien_nang_tieu_thu"/>
+                            <field name="dien_nang_tieu_thu_kh"/>
+                            <field name="nhiet_do_nho_nhat"/>
+                            <field name="nhiet_do_cao_nhat"/>
+                            <field name="lan_cap_nhat_cuoi"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="control_state"/>
+                    </group>
+                <notebook>
+
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_dieuhoa_tree">
+        <field name="name">dieuhoa.tree</field>
+        <field name="model">dieuhoa</field>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <tree string="Air">
+                <field name="name"/>
+                <field name="trang_thai"/>
+                <field name="gia_tri"/>
+                <field name="nhiet_do_phong"/>
+                <field name="dien_nang_tieu_thu"/>
+                <field name="dien_nang_tieu_thu_kh"/>
+            </tree>
+        </field>
+    </record>
+
+   <!--  <record id="view_dieuhoa_graph" model="ir.ui.view">
+         <field name="name">dieuhoa.graph</field>
+         <field name="model">dieuhoa</field>
+         <field name="arch" type="xml">
+             <graph string="Air Analysis" type="line">
+                 <field name="thoi_gian" type="col" />
+                 <field name="nhiet_do_may_v1" type="measure"/>
+             </graph>
+         </field>
+    </record> -->
+
+    <record id="action_dieuhoa" model="ir.actions.act_window">
+        <field name="name">Air control</field>
+        <field name="res_model">dieuhoa</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="action_giatri" model="ir.actions.act_window">
+        <field name="name">Values control</field>
+        <field name="res_model">giatri</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem id="dieuhoa_root_menu" name="Air Control" />
+    <menuitem id="dieuhoa_sub_menu" name="Air Control" parent="dieuhoa_root_menu" action="action_dieuhoa" />
+    <menuitem id="giatri_sub_menu" name="Values Control" parent="dieuhoa_root_menu" action="action_giatri" />
+
+</data>
+</openerp>
