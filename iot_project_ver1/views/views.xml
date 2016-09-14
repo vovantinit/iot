@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="thongke_form">
+        <field name="name">thongke.form</field>
+        <field name="model">thongke</field>
+        <field name="arch" type="xml">
+            <form string="Thong Ke">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="thoi_gian"/>
+                        <field name="nhiet_do"/>
+                        <field name="do_am"/>
+                        <field name="anh_sang"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="thongke_tree">
+        <field name="name">thongke.tree</field>
+        <field name="model">thongke</field>
+        <field name="arch" type="xml">
+            <tree string="Thong Ke">
+                <field name="name"/>
+                <field name="nhiet_do"/>
+                <field name="do_am"/>
+                <field name="anh_sang"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_thongke" model="ir.actions.act_window">
+        <field name="name">Thong Ke</field>
+        <field name="res_model">thongke</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    
+
+    <record id="view_baocao_graph" model="ir.ui.view">
+         <field name="name">baocao.graph</field>
+         <field name="model">baocao</field>
+         <field name="arch" type="xml">
+             <graph string="Bao Cao">
+                 <field name="name" type="row" />
+                 <field name="loai" type="col" />
+             </graph>
+         </field>
+    </record>
+
+    <record id="action_baocao" model="ir.actions.act_window">
+        <field name="name">Bao Cao</field>
+        <field name="res_model">baocao</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,graph</field>
+    </record>
+
+    <menuitem id="thongke_menu" name="Thong Ke" />
+    <menuitem id="thongke_sub_menu" name="Thong Ke" parent="thongke_menu" action="action_thongke" />
+    <menuitem id="baocao_sub_menu" name="Bao Cao" parent="thongke_menu" action="action_baocao" />
+
+</data>
+</openerp>
