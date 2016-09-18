@@ -2,6 +2,12 @@
 <openerp>
 <data>
 
+    <record id="seq_unique_id2" model="ir.sequence">
+        <field name="name">my_sequence</field>
+        <field name="code">sequence_code</field>
+        <field name="padding">5</field>
+    </record>
+
     <record model="ir.ui.view" id="thongke_form">
         <field name="name">thongke.form</field>
         <field name="model">thongke</field>
@@ -10,7 +16,7 @@
                 <sheet>
                     <group>
                         <field name="name"/>
-                        <field name="thoi_gian"/>
+                        <!-- <field name="thoi_gian"/> -->
                         <field name="nhiet_do"/>
                         <field name="do_am"/>
                         <field name="anh_sang"/>
@@ -46,9 +52,10 @@
          <field name="name">baocao.graph</field>
          <field name="model">baocao</field>
          <field name="arch" type="xml">
-             <graph string="Bao Cao">
+             <graph string="Bao Cao" type="line" >
                  <field name="name" type="row" />
                  <field name="loai" type="col" />
+                 <field name="gia_tri" type="measure" />
              </graph>
          </field>
     </record>
@@ -57,12 +64,73 @@
         <field name="name">Bao Cao</field>
         <field name="res_model">baocao</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form,graph</field>
+        <field name="view_mode">graph,tree</field>
+        <field name="type">ir.actions.act_window</field>
     </record>
 
-    <menuitem id="thongke_menu" name="Thong Ke" />
-    <menuitem id="thongke_sub_menu" name="Thong Ke" parent="thongke_menu" action="action_thongke" />
-    <menuitem id="baocao_sub_menu" name="Bao Cao" parent="thongke_menu" action="action_baocao" />
+    <record model="ir.ui.view" id="quanly_form">
+        <field name="name">quanly.form</field>
+        <field name="model">quanly</field>
+        <field name="arch" type="xml">
+            <form string="Dashboard">
+                <header>
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        
+                        <field name="code"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="thoi_gian"/>
+                            <field name="nhiet_do"/>
+                            <field name="do_am"/>
+                            <field name="anh_sang"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Danh sách thiết bị">
+                            <field name="thietbi_ids" domain="[('is_input', '=', False)]" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="thietbi_tree">
+        <field name="name">thietbi.tree</field>
+        <field name="model">thietbi</field>
+        <field name="arch" type="xml">
+            <tree string="Thiết bị">
+                <field name="name"/>
+                <field name="state"/>
+                <button name="turn_on" states="off" string="Bật" type="object" class="oe_highlight" />
+                <button name="turn_off" states="on" string="Tắt" type="object" class="oe_highlight" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="action_quanly" model="ir.actions.act_window">
+        <field name="name">Quản lý</field>
+        <field name="res_model">quanly</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('id', '=', 1)]</field>
+        <field name="type">ir.actions.act_window</field>
+    </record>
+
+
+
+    <menuitem id="quanly_menu" name="Quản lý" action="action_quanly" sequence="5" />
+
+    <menuitem id="thongke_menu" name="Thong Ke" sequence="10" />
+    <menuitem id="baocao_sub_menu" name="Bao Cao" parent="thongke_menu" action="action_baocao" sequence="5" />
+    <menuitem id="thongke_sub_menu" name="Thong Ke" parent="thongke_menu" action="action_thongke" sequence="10" />
 
 </data>
 </openerp>
