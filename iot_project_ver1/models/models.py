@@ -2,6 +2,31 @@
 from openerp import models, fields, api, _
 from openerp.exceptions import ValidationError
 from datetime import datetime
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+
+import smbus
+import time
+DEVICE     = 0x23 # Default device I2C address
+POWER_DOWN = 0x00 # No active state
+POWER_ON   = 0x01 # Power on
+RESET      = 0x07 # Reset data register value
+CONTINUOUS_LOW_RES_MODE = 0x13
+CONTINUOUS_HIGH_RES_MODE_1 = 0x10
+CONTINUOUS_HIGH_RES_MODE_2 = 0x11
+ONE_TIME_HIGH_RES_MODE_1 = 0x20
+ONE_TIME_HIGH_RES_MODE_2 = 0x21
+ONE_TIME_LOW_RES_MODE = 0x23
+bus = smbus.SMBus(1)  
+ 
+def convertToNumber(data):
+    return ((data[1] + (256 * data[0])) / 1.2)
+ 
+def readLight(addr=DEVICE):
+    data = bus.read_i2c_block_data(addr,ONE_TIME_HIGH_RES_MODE_1)
+    return convertToNumber(data)
 
 class QuanLy(models.Model):
     _name = 'quanly'
@@ -58,13 +83,15 @@ class ThietBi(models.Model):
     @api.multi
     def turn_on(self):
         self.ensure_one()
-        # 
+        GPIO.setup(self.pin, GPIO.OUT)
+        GPIO.output(self.pin, 1)
         self.write({'state': 'on'})
 
     @api.multi
     def turn_off(self):
         self.ensure_one()
-        # 
+        GPIO.setup(self.pin, GPIO.OUT)
+        GPIO.output(self.pin, 0)
         self.write({'state': 'off'})
 
 class ThongKe(models.Model):
